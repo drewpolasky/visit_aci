@@ -7,7 +7,7 @@ IncludeCmd: yes
 %files
 
 %environment
-PATH="$PATH:/usr/lib64/openmpi/bin/:/usr/local/visit/bin/"
+PATH="$PATH:/usr/lib64/openmpi/bin/:/opt/visit/bin/"
 LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/lib64/openmpi/lib/"
 MPI_ROOT=/usr/lib64/openmpi/
 export PATHi
@@ -83,7 +83,8 @@ export MPI_ROOT
     cd /tmp/
     wget http://portal.nersc.gov/project/visit/releases/3.0.0/visit3_0_0.linux-x86_64-rhel7.tar.gz
     tar -xf visit3_0_0.linux-x86_64-rhel7.tar.gz
-    cd visit3_0_0.linux-x86_64
-    wget http://portal.nersc.gov/project/visit/releases/3.0.0b/visit-install3_0_0b
-    chmod 770 visit-install3_0_0b
-    ./visit-install3_0_0b 3.0.0 linux-x86_64-rehl7 /usr/local/visit/
+    mv visit3_0_0.linux-x86_64 /opt/visit
+    #cd visit3_0_0.linux-x86_64
+    #wget http://portal.nersc.gov/project/visit/releases/3.0.0b/visit-install3_0_0b
+    #chmod 770 visit-install3_0_0b
+    #./visit-install3_0_0b 3.0.0 linux-x86_64-rehl7 /usr/local/visit/
