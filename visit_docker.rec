@@ -1,0 +1,22 @@
+BootStrap: docker
+From: symerio/visit
+%setup
+
+
+%files
+
+%environment
+
+%runscript
+    exec /visit2_12_3.linux-x86_64/bin/visit "$@"
+
+%post
+
+    mkdir -p /storage/home
+    mkdir -p /storage/work
+    mkdir -p /gpfs/scratch
+    mkdir -p /gpfs/group
+    mkdir -p /var/spool/torque
+    
+    # Make symlinks
+    ln -s `which vim` /usr/local/bin/vi

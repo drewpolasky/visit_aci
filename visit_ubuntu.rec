@@ -1,0 +1,54 @@
+BootStrap: docker
+From: ubuntu:16.04
+%setup
+
+
+%files
+
+%environment
+PATH="$PATH:/opt/visit/bin/"
+#LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/lib64/openmpi/lib/"
+#MPI_ROOT=/usr/lib64/openmpi/
+#export PATH
+#export LD_LIBRARY_PATH
+#export MPI_ROOT
+
+%runscript
+    exec /opt/visit/bin/visit "$@"
+
+%post
+    # commands to be executed inside container during bootstrap
+    # add python and install some packages
+  apt-get update
+  apt-get install -y git cmake binutils g++ bzip2 ca-certificates autoconf m4 mesa-utils tcl-vtk libxmu-dev gtk2-engines-pixbuf wget tar libglu1 zlib1g zlib1g-dev libpng-dev
+   
+  #libpng15
+  wget https://sourceforge.net/projects/libpng/files/libpng15/1.5.30/libpng-1.5.30.tar.gz
+  tar -xvzf libpng-1.5.30.tar.gz
+  cd libpng-1.5.30
+  ./configure --prefix=/usr/local/
+  make check
+  make install
+  make check
+
+    mkdir -p /storage/home
+    mkdir -p /storage/work
+    mkdir -p /gpfs/scratch
+    mkdir -p /gpfs/group
+    mkdir -p /var/spool/torque
+    
+    # Make symlinks
+    ln -s `which qmake-qt5` /usr/local/bin/qmake
+    ln -s `which moc-qt5` /usr/local/bin/moc
+    ln -s `which rcc-qt5` /usr/local/bin/rcc
+    ln -s `which vim` /usr/local/bin/vi
+    
+    cd /tmp
+    wget http://portal.nersc.gov/project/visit/releases/3.0.0/visit3_0_0.linux-x86_64-rhel7.tar.gz
+    wget http://portal.nersc.gov/project/visit/releases/3.0.0/visit3_0_0.linux-x86_64-rhel7-wmesa.tar.gz
+    tar -xf visit3_0_0.linux-x86_64-rhel7.tar.gz
+    mv visit3_0_0.linux-x86_64 /opt/visit
+    #cd /opt/visit/
+    #wget http://portal.nersc.gov/project/visit/releases/3.0.0b/visit-install3_0_0b
+    #chmod 770 visit-install3_0_0b
+    #./visit-install3_0_0b 3.0.0 linux-x86_64-rhel7 /opt/visit/
